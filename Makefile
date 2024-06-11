@@ -1,6 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -std=c99
-SRCS := $(wildcard *.c)
+SRCS := $(wildcard src/init/*.c)
+OUT_SRC := $(wildcard *.c)
 OUT_DIR = out
 TARGETS := $(patsubst %.c,$(OUT_DIR)/%,$(SRCS))
 
