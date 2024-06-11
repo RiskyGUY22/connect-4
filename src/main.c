@@ -83,13 +83,11 @@ int getMenuChoice(int *choice) {
 
 void game_logic() {
 	// Implement game logic here
-
-
 }
 
 int main() {
 
-    // Define the array to represent the board and initialize it with dotted circles
+	// Define the array to represent the board and initialize it with dotted circles
 	// *NOTE* essentially with Unicode in C, one arguement is worth "4" values so we need to make it a 3D array.
     char board[6][7][4] = {
         {"\xE2\x97\x8C", "\xE2\x97\x8C", "\xE2\x97\x8C", "\xE2\x97\x8C", "\xE2\x97\x8C", "\xE2\x97\x8C", "\xE2\x97\x8C"},
@@ -109,28 +107,28 @@ int main() {
 	initInstance(&player2, "Player2", "Computer");
 
 	// Call the menu function to get input from user
-    int choice;
-    getMenuChoice(&choice);
+	int choice;
+	getMenuChoice(&choice);
 	printf("\n");
 
 	// Handle the user's input
-    switch (choice) {
-        case 1:
-            print_board(board);
-            break;
-        case 2:
-            printf("Options not implemented\n");
-            break;
-        case 3:
-            // Exit program
+	switch (choice) {
+	    case 1:
+	        print_board(board);
+	        break;
+	    case 2:
+	        printf("Options not implemented\n");
+	        break;
+	    case 3:
+	        // Exit program
 			printf(RED "Goodbye!\n" RESET);
 			return 1;
-            break;
-        default:
-            printf("Invalid choice\n");
-            break;
-    }
+	        break;
+	    default:
+	        printf("Invalid choice\n");
+	        break;
+	}
 
 	// Return 0 to show that the program has run successfully
-    return 0;
+	return 0;
 }
