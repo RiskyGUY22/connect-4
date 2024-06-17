@@ -24,6 +24,14 @@ void print_board(char board[][7][4])
     }
 }
 
+void changeBoardValue(char *board[][7][4], int *x, int *y) {
+
+
+	board[4][3] = "test";
+
+
+}
+
 /* The players and their data will be handled by structs,
    this functions is used to define that data.*/
 

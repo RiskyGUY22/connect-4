@@ -31,6 +31,7 @@ void game_logic(char board[][7][4])
 
 	// Get the user's input
 	getInput(&x, &y);
+	changeBoardValue(&board, x, y);
 }
 
 int main()

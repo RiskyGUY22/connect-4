@@ -12,7 +12,11 @@
 #define YELLOW "\033[0;33m"
 #define BLUE "\033[0;34m"
 
+#define LINED_CIRCLE "\xE2\x97\x8B"
+
 void print_board(char board[][7][4]);
+
+void changeBoardValue(char *board[][7][4], int *x, int *y);
 
 // Define a struct to hold player data
 struct instance
