@@ -1,6 +1,8 @@
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
+#include <stdbool.h>
+
 // Define Unicode formmating for the game
 #define RESET "\033[0m"
 #define BOLD "\033[1m"
@@ -12,11 +14,11 @@
 #define YELLOW "\033[0;33m"
 #define BLUE "\033[0;34m"
 
+#define BLANK_CIRCLE "\xE2\x97\x8C"
 #define LINED_CIRCLE "\xE2\x97\x8B"
+#define FILLED_CIRCLE "\xE2\x97\x8F"
 
 void print_board(char board[][7][4]);
-
-void changeBoardValue(char *board[][7][4], int *x, int *y);
 
 // Define a struct to hold player data
 struct instance
@@ -25,10 +27,11 @@ struct instance
     char player_name[4096];
 };
 
+void changeBoardValue(char board[][7][4], int x, int y, struct instance *instance);
 void initInstance(struct instance *instance, char *player, char *player_name);
-void checkValidX(int *x);
-void checkValidY(int *y);
-void getInput(int *x, int *y);
+void checkValid(int *x, int *y, char board[][7][4]);
+void getPlayersInput(int *x, int *y, char board[][7][4], struct instance *instance);
 int getMenuChoice(int *choice);
+bool checkPlayerWon();
 
 #endif /* FUNCTIONS_H */
