@@ -10,16 +10,16 @@ CFLAGS_WIN = -Wall -Wextra -I src/includes
 SRC_DIR = src
 OUT_DIR = out
 
-# Find all C source files in the src directory
+# Find all C source files in the src directory and add to build list
 SRCS = $(shell find $(SRC_DIR) -name '*.c')
 
 # Generate object file names from source files
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OUT_DIR)/%.o)
-OBJS_WIN = $(SRCS:$(SRC_DIR)/%.c=$(OUT_DIR)/%.win.o)
+OBJS_WIN = $(SRCS:$(SRC_DIR)/%.c=$(OUT_DIR)/%.win.o) # win support
 
 # Output executables
 TARGET_LINUX = $(OUT_DIR)/Image
-TARGET_WINDOWS = $(OUT_DIR)/Image.exe
+TARGET_WINDOWS = $(OUT_DIR)/Image.exe # win formatted executable
 
 # Default target
 all: $(TARGET_LINUX) $(TARGET_WINDOWS)
@@ -44,8 +44,9 @@ $(OUT_DIR)/%.win.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
 	$(CC_WIN) $(CFLAGS_WIN) -c $< -o $@
 
-# Clean up
+# Clean builds
 clean:
 	rm -rf $(OUT_DIR) $(TARGET_LINUX) $(TARGET_WINDOWS)
 
+# Add targets to the phony list
 .PHONY: all clean
