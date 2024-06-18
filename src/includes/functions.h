@@ -34,9 +34,10 @@ void changeBoardValue(char board[][7][4], int x, int y, struct instance *instanc
 void initInstance(struct instance *instance, char *player, char *player_name);
 void checkValid(int *x, int *y, char board[][COLS][4]);
 void getPlayersInput(int *x, int *y, char board[][7][4], struct instance *instance);
-int getMenuChoice(int *choice);
+int getMenuChoice(char choice[8]);
 bool checkLine(char board[][COLS][4], int startX, int startY, int dx, int dy, const char playerCircle[]);
 bool checkPlayerWon(char board[][COLS][4]);
+void howToPlay();
 int findLowestAvailableRow(int column, char board[][COLS][4]);
 
 #endif /* FUNCTIONS_H */

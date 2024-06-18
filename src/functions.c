@@ -203,23 +203,27 @@ bool checkPlayerWon(char board[][COLS][4])
     return false;
 }
 
+void howToPlay()
+{
+
+    printf(BLUE "\nThe game is played on a grid that's 7 columns by 6 rows.\n");
+    printf("Two players take turns to drop their circles into the grid.\n");
+    printf("The first player to get four circles in a row (either vertically, horizontally or diagonally) wins!\n\n");
+
+}
+
 // Simple function to get the user's choice from the menu
-int getMenuChoice(int *choice)
+int getMenuChoice(char choice[8])
 {
 
     printf(GREEN "Welcome to my Connect-4 Game!\n\n" RESET);
     printf(BLUE " 1. Start\n" RESET);
-    printf(YELLOW " 2. Options\n" RESET);
+    printf(YELLOW " 2. How-To-Play\n" RESET);
     printf(RED " 3. Quit\n" RESET);
 
     printf(BLUE "\nOPTION: " RESET);
 
-    // Check for invalid inputs
-    if (scanf("%d", choice) != 1)
-    {
-        fprintf(stderr, "Invalid input\n");
-        return 1;
-    }
+    scanf("%s", choice);
 
     // Program has run successfully
     return 0;

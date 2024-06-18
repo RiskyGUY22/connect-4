@@ -16,6 +16,7 @@
 // Include the necessary libraries
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 
 // Lots of implementation is here, for ref: src/functions.c
 #include <functions.h>
@@ -77,28 +78,37 @@ int main()
 	initInstance(&player2, "Player2", "Computer");
 
 	// Call the menu function to get input from user
-	int choice;
-	getMenuChoice(&choice);
+	char choice[8];
+	getMenuChoice(choice);
+
 	printf("\n");
 
-	// Handle the user's input
-	switch (choice)
-	{
-	case 1:
-		game_logic(board, &player1, &player2);
-		break;
-	case 2:
-		printf("Options not implemented\n");
-		break;
-	case 3:
-		// Exit program
-		printf(RED "Goodbye!\n" RESET);
-		return 1;
-		break;
-	default:
-		printf("Invalid choice\n");
-		break;
-	}
+    while (strcmp(choice, "1") != 0 && strcmp(choice, "2") != 0 && strcmp(choice, "3") != 0) {
+        printf(RED "Invalid input!\n\n" RESET);
+        sleep(2);
+        getMenuChoice(choice);
+    }
+
+    if (strcmp(choice, "1") == 0) {
+        game_logic(board, &player1, &player2);
+    } else if (strcmp(choice, "2") == 0) {
+        howToPlay();
+        printf("Waiting 5 seconds...\n\n" RESET);
+        sleep(5);
+        getMenuChoice(choice);
+        if (strcmp(choice, "1") == 0) {
+            game_logic(board, &player1, &player2);
+        } else if (strcmp(choice, "2") == 0) {
+            howToPlay();
+        } else if (strcmp(choice, "3") == 0) {
+            printf(RED "Goodbye!\n" RESET);
+            return 1;
+        }
+    } else if (strcmp(choice, "3") == 0) {
+        // Exit program
+        printf(RED "Goodbye!\n" RESET);
+        return 1;
+    }
 
 	// Return 0 to show that the program has run successfully
 	return 0;
