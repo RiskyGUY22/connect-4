@@ -45,30 +45,53 @@ void initInstance(struct instance *instance, char *player, char *player_name)
     strcpy(instance->player_name, player_name);
 }
 
-void checkValid(int *x, int *y, char board[][7][4])
+// This function finds the lowest available position in the specified column
+int findLowestAvailableRow(int column, char board[][COLS][4])
 {
-    // Check input is an integer and is between 1 and 6 inclusive
-    // check both coordinated then ask for both of them again if one of them is invalid
-    while (getchar() != '\n' || *x < 1 || *x > 7 || *y < 1 || *y > 6)
+    for (int row = ROWS - 1; row >= 0; row--)
     {
-        printf(RED "\nInvalid set of coordinated entered, Please re-enter!\n" RESET);
-
-        printf(BLUE "Enter your x coordinate : ");
-        scanf("%d", x);
-        printf("Enter your y coordinate : ");
-        scanf("%d", y);
+        if (strcmp(board[row][column], BLANK_CIRCLE) == 0)
+        {
+            return row;
+        }
     }
+    return -1; // Column is full
+}
 
-    // Seperately check if the place has already been taken to avoid confusing error messages
-    while ((strcmp(board[*y - 1][*x - 1], BLANK_CIRCLE) != 0))
+void checkValid(int *x, int *y, char board[][COLS][4])
+{
+    // Ensure the column and row are within valid range and check gravity
+    while (*x < 1 || *x > COLS || *y < 1 || *y > ROWS || 
+           strcmp(board[*y - 1][*x - 1], BLANK_CIRCLE) != 0 || 
+           (*y < ROWS && strcmp(board[*y][*x - 1], BLANK_CIRCLE) == 0))
     {
+        if (*x < 1 || *x > COLS || *y < 1 || *y > ROWS)
+        {
+            printf(RED "\nInvalid set of coordinated entered, Please re-enter!\n" RESET);
 
-        printf(RED "\nLocated already taken, Please re-enter!\n" RESET);
+            printf(BLUE "Enter your x coordinate : ");
+            scanf("%d", x);
+            printf("Enter your y coordinate : ");
+            scanf("%d", y);
+        }
+        else if (strcmp(board[*y - 1][*x - 1], BLANK_CIRCLE) != 0)
+        {
+            printf(RED "\nLocation already taken!!\n" RESET);
 
-        printf(BLUE "Enter your x coordinate : ");
-        scanf("%d", x);
-        printf("Enter your y coordinate : ");
-        scanf("%d", y);
+            printf(BLUE "Enter your x coordinate : ");
+            scanf("%d", x);
+            printf("Enter your y coordinate : ");
+            scanf("%d", y);
+        }
+        else if (*y < ROWS && strcmp(board[*y][*x - 1], BLANK_CIRCLE) == 0)
+        {
+            printf(RED "\nDon't defy gravity!!\n" RESET);
+
+            printf(BLUE "Enter your x coordinate : ");
+            scanf("%d", x);
+            printf("Enter your y coordinate : ");
+            scanf("%d", y);
+        }
     }
 }
 
@@ -107,9 +130,75 @@ void getPlayersInput(int *x, int *y, char board[][7][4], struct instance *instan
     }
 }
 
-// Main loop to check if a player has won
-bool checkPlayerWon()
+bool checkLine(char board[][COLS][4], int startX, int startY, int dx, int dy, const char playerCircle[])
 {
+    int count = 0;
+    for (int i = 0; i < 4; i++)
+    {
+        int x = startX + i * dx;
+        int y = startY + i * dy;
+        if (x >= 0 && x < ROWS && y >= 0 && y < COLS && strcmp(board[x][y], playerCircle) == 0)
+        {
+            count++;
+        }
+        else
+        {
+            break;
+        }
+    }
+    return count == 4;
+}
+
+// Main loop to check if a player has won
+bool checkPlayerWon(char board[][COLS][4])
+{
+    // Check horizontal lines
+    for (int row = 0; row < ROWS; row++)
+    {
+        for (int col = 0; col <= COLS - 4; col++)
+        {
+            if (checkLine(board, row, col, 0, 1, LINED_CIRCLE) || checkLine(board, row, col, 0, 1, FILLED_CIRCLE))
+            {
+                return true;
+            }
+        }
+    }
+
+    // Check vertical lines
+    for (int row = 0; row <= ROWS - 4; row++)
+    {
+        for (int col = 0; col < COLS; col++)
+        {
+            if (checkLine(board, row, col, 1, 0, LINED_CIRCLE) || checkLine(board, row, col, 1, 0, FILLED_CIRCLE))
+            {
+                return true;
+            }
+        }
+    }
+
+    // Check descending diagonals
+    for (int row = 0; row <= ROWS - 4; row++)
+    {
+        for (int col = 0; col <= COLS - 4; col++)
+        {
+            if (checkLine(board, row, col, 1, 1, LINED_CIRCLE) || checkLine(board, row, col, 1, 1, FILLED_CIRCLE))
+            {
+                return true;
+            }
+        }
+    }
+
+    // Check ascending diagonals
+    for (int row = 3; row < ROWS; row++)
+    {
+        for (int col = 0; col <= COLS - 4; col++)
+        {
+            if (checkLine(board, row, col, -1, 1, LINED_CIRCLE) || checkLine(board, row, col, -1, 1, FILLED_CIRCLE))
+            {
+                return true;
+            }
+        }
+    }
 
     return false;
 }

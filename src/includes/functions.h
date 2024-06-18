@@ -18,6 +18,9 @@
 #define LINED_CIRCLE "\xE2\x97\x8B"
 #define FILLED_CIRCLE "\xE2\x97\x8F"
 
+#define ROWS 6
+#define COLS 7
+
 void print_board(char board[][7][4]);
 
 // Define a struct to hold player data
@@ -29,9 +32,11 @@ struct instance
 
 void changeBoardValue(char board[][7][4], int x, int y, struct instance *instance);
 void initInstance(struct instance *instance, char *player, char *player_name);
-void checkValid(int *x, int *y, char board[][7][4]);
+void checkValid(int *x, int *y, char board[][COLS][4]);
 void getPlayersInput(int *x, int *y, char board[][7][4], struct instance *instance);
 int getMenuChoice(int *choice);
-bool checkPlayerWon();
+bool checkLine(char board[][COLS][4], int startX, int startY, int dx, int dy, const char playerCircle[]);
+bool checkPlayerWon(char board[][COLS][4]);
+int findLowestAvailableRow(int column, char board[][COLS][4]);
 
 #endif /* FUNCTIONS_H */

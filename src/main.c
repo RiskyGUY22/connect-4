@@ -29,17 +29,29 @@ void game_logic(char board[][7][4], struct instance *player1, struct instance *p
 
 	print_board(board); // Initial display of the board
 
-	while (!checkPlayerWon())
+	while (1)
 	{
 		// Get Player 1 Input, and change the board value
 		getPlayersInput(&x, &y, board, player1);
 		changeBoardValue(board, x, y, player1);
 		print_board(board);
 
+        // Check if Player 1 has won
+        if (checkPlayerWon(board)) {
+            printf(RED "\nGAME OVER!\nPlayer 1 has won!\n" RESET);
+            return;
+        }
+
 		// Get Player 2 Input, and change the board value
 		getPlayersInput(&x, &y, board, player2);
 		changeBoardValue(board, x, y, player2);
 		print_board(board);
+
+        // Check if Player 2 has won
+        if (checkPlayerWon(board)) {
+            printf(RED "\nGAME OVER!\nPlayer 2 has won!\n" RESET);
+            return;
+        }
 	}
 }
 
