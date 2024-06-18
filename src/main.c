@@ -11,56 +11,67 @@
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
-# limitations under the License.*/
+# limitations under the License.
+*/
 
-// Include the necessary libraries
+/* Include the necessary libraries */
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
 
-// Lots of implementation is here, for ref: src/functions.c
+/* Lots of implementation is here, for ref: src/functions.c */
 #include <functions.h>
 
+/* Main game function which calls all the necessary subprograms needed */
 void game_logic(char board[][7][4], struct instance *player1, struct instance *player2)
 {
-	// Implement game logic here
-
-	// Create x and y coordinated for the user's input
+	/* Variables for the x/y location on the game board */
 	int x, y;
 
-	print_board(board); // Initial display of the board
+	print_board(board); /* Initial display of the board */
 
+	/* Loop through the game until a player has won, which breaks the loop
+	   by returning rather than breaking.
+	*/
 	while (1)
 	{
-		// Get Player 1 Input, and change the board value
+		/* Get Player 1 Input, and modify the board value accordingly */
 		getPlayersInput(&x, &y, board, player1);
 		changeBoardValue(board, x, y, player1);
 		print_board(board);
 
-        // Check if Player 1 has won
-        if (checkPlayerWon(board)) {
-            printf(RED "\nGAME OVER!\nPlayer 1 has won!\n" RESET);
-            return;
-        }
+		/* Check if Player 1 has won */
+		if (checkPlayerWon(board))
+		{
+			printf(RED "\nGAME OVER!\nPlayer 1 has won!\n" RESET);
+			return;
+		}
 
-		// Get Player 2 Input, and change the board value
+		/* Get Player 2 Input, and modify the board value accordingly */
 		getPlayersInput(&x, &y, board, player2);
 		changeBoardValue(board, x, y, player2);
 		print_board(board);
 
-        // Check if Player 2 has won
-        if (checkPlayerWon(board)) {
-            printf(RED "\nGAME OVER!\nPlayer 2 has won!\n" RESET);
-            return;
-        }
+		/* Check if Player 2 has won */
+		if (checkPlayerWon(board))
+		{
+			printf(RED "\nGAME OVER!\nPlayer 2 has won!\n" RESET);
+			return;
+		}
 	}
 }
 
+/* Main function which C will naturally run first, the main point of this
+   is to call our gameLogic function and a few other things needed at the
+   start of runtime.
+*/
 int main()
 {
 
-	// Define the array to represent the board and initialize it with dotted circles
-	// *NOTE* essentially with Unicode in C, one arguement is worth "4" values so we need to make it a 3D array.
+	/* Define the array to represent the board and initialize it with dotted circles
+	   *NOTE* essentially with Unicode in C, one arguement is worth "4" values so we,
+	   need to make it a 3D array.
+	*/
 	char board[6][7][4] = {
 		{"\xE2\x97\x8C", "\xE2\x97\x8C", "\xE2\x97\x8C", "\xE2\x97\x8C", "\xE2\x97\x8C", "\xE2\x97\x8C", "\xE2\x97\x8C"},
 		{"\xE2\x97\x8C", "\xE2\x97\x8C", "\xE2\x97\x8C", "\xE2\x97\x8C", "\xE2\x97\x8C", "\xE2\x97\x8C", "\xE2\x97\x8C"},
@@ -69,46 +80,73 @@ int main()
 		{"\xE2\x97\x8C", "\xE2\x97\x8C", "\xE2\x97\x8C", "\xE2\x97\x8C", "\xE2\x97\x8C", "\xE2\x97\x8C", "\xE2\x97\x8C"},
 		{"\xE2\x97\x8C", "\xE2\x97\x8C", "\xE2\x97\x8C", "\xE2\x97\x8C", "\xE2\x97\x8C", "\xE2\x97\x8C", "\xE2\x97\x8C"}};
 
-	// Initialise player instances
+	/* Initialise player instances, this will be used later on to store player related,
+	   data efficiently rather than using seperate variables (similar to classes) in an
+	   object orientated programming language.
+	*/
 	struct instance player1;
 	struct instance player2;
 
-	// Set player names
+	/* Call the function which will give our instances data */
 	initInstance(&player1, "Player1", "TT");
 	initInstance(&player2, "Player2", "Computer");
 
-	// Call the menu function to get input from user
+	/* Call the function to display our Main menu and get the user's choice */
 	char choice[8];
 	getMenuChoice(choice);
-
 	printf("\n");
 
-    while (strcmp(choice, "1") != 0 && strcmp(choice, "2") != 0 && strcmp(choice, "3") != 0) {
-        printf(RED "Invalid input!\n\n" RESET);
-        sleep(2);
-        getMenuChoice(choice);
-    }
+	/* Robust Programming: this code will use a function from the C lib string.h
+	   to compare the values of the choice variable and check it has the correct data,
+	   if not we will re ask the user for the correct data.
+	*/
+	while (strcmp(choice, "1") != 0 && strcmp(choice, "2") != 0 && strcmp(choice, "3") != 0)
+	{
+		printf(RED "Invalid input!\n\n" RESET);
+		sleep(2);
+		getMenuChoice(choice);
+	}
 
-    if (strcmp(choice, "1") == 0) {
-        game_logic(board, &player1, &player2);
-    } else if (strcmp(choice, "2") == 0) {
-        howToPlay();
-        printf("Waiting 5 seconds...\n\n" RESET);
-        sleep(5);
-        getMenuChoice(choice);
-        if (strcmp(choice, "1") == 0) {
-            game_logic(board, &player1, &player2);
-        } else if (strcmp(choice, "2") == 0) {
-            howToPlay();
-        } else if (strcmp(choice, "3") == 0) {
-            printf(RED "Goodbye!\n" RESET);
-            return 1;
-        }
-    } else if (strcmp(choice, "3") == 0) {
-        // Exit program
-        printf(RED "Goodbye!\n" RESET);
-        return 1;
-    }
+	/* This code will run the main game logic */
+	if (strcmp(choice, "1") == 0)
+	{
+		game_logic(board, &player1, &player2);
+	}
+	else if (strcmp(choice, "2") == 0)
+	{
+		/* Display to the user how to play the game */
+		howToPlay();
+		printf("Waiting 5 seconds...\n\n" RESET);
+		sleep(5);
+		getMenuChoice(choice);
+
+		while (strcmp(choice, "1") != 0 && strcmp(choice, "2") != 0 && strcmp(choice, "3") != 0)
+		{
+			printf(RED "Invalid input!\n\n" RESET);
+			sleep(2);
+			getMenuChoice(choice);
+		}
+
+		if (strcmp(choice, "1") == 0)
+		{
+			game_logic(board, &player1, &player2);
+		}
+		else if (strcmp(choice, "2") == 0)
+		{
+			howToPlay();
+		}
+		else if (strcmp(choice, "3") == 0)
+		{
+			printf(RED "Goodbye!\n" RESET);
+			return 1;
+		}
+	}
+	else if (strcmp(choice, "3") == 0)
+	{
+		/* Exit the program */
+		printf(RED "Goodbye!\n" RESET);
+		return 1;
+	}
 
 	// Return 0 to show that the program has run successfully
 	return 0;
