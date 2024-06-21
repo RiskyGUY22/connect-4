@@ -29,17 +29,21 @@ struct instance
 {
     char player[100];
     char player_name[4096];
+	int score;
+	int high_score;
 };
 
 /* All of the functions used in functions.c */
 void print_board(char board[][COLS][4]);
+void play_again();
 void changeBoardValue(char board[][COLS][4], int x, int y, struct instance *instance);
-void initInstance(struct instance *instance, char *player, char *player_name);
+void initInstance(struct instance *instance, char *player, char *player_name, int score, int high_score);
 void checkValid(int *x, int *y, char board[][COLS][4]);
 void getPlayersInput(int *x, int *y, char board[][COLS][4], struct instance *instance);
 int getMenuChoice(char choice[8]);
 bool checkLine(char board[][COLS][4], int startX, int startY, int dx, int dy, const char playerCircle[]);
 bool checkPlayerWon(char board[][COLS][4]);
+void clear_board(char board[][COLS][4]);
 void howToPlay();
 
 #endif /* FUNCTIONS_H */

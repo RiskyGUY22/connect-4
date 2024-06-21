@@ -43,8 +43,16 @@ void game_logic(char board[][7][4], struct instance *player1, struct instance *p
 		/* Check if Player 1 has won */
 		if (checkPlayerWon(board))
 		{
-			printf(RED "\nGAME OVER!\nPlayer 1 has won!\n" RESET);
-			return;
+			printf(RED "\nGAME OVER!\nPlayer 1 has won!\n");
+			player1->score += 1;
+			printf("\nPlayer 1's score is now %d\n" RESET, player1->score);
+			sleep(2);
+
+			play_again();
+			print_board(board);
+			getPlayersInput(&x, &y, board, player1);
+			changeBoardValue(board, x, y, player1);
+			print_board(board);
 		}
 
 		/* Get Player 2 Input, and modify the board value accordingly */
@@ -55,8 +63,13 @@ void game_logic(char board[][7][4], struct instance *player1, struct instance *p
 		/* Check if Player 2 has won */
 		if (checkPlayerWon(board))
 		{
-			printf(RED "\nGAME OVER!\nPlayer 2 has won!\n" RESET);
-			return;
+			printf(RED "\nGAME OVER!\nPlayer 2 has won!\n" );
+			player2->score += 1;
+			printf("\nPlayer 2's score is now %d\n" RESET, player2->score);
+			sleep(2);
+			
+			play_again();
+			print_board(board);
 		}
 	}
 }
@@ -88,8 +101,8 @@ int main()
 	struct instance player2;
 
 	/* Call the function which will give our instances data */
-	initInstance(&player1, "Player1", "TT");
-	initInstance(&player2, "Player2", "Computer");
+	initInstance(&player1, "Player1", "TT", 0, 0);
+	initInstance(&player2, "Player2", "Computer", 0, 0);
 
 	/* Call the function to display our Main menu and get the user's choice */
 	char choice[8];

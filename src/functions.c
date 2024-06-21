@@ -42,6 +42,28 @@ void print_board(char board[][COLS][4])
     }
 }
 
+void clear_board(char board[][COLS][4])
+{
+
+}
+
+void play_again()
+{
+
+	char choice[4096];
+	printf("Do you want to play again?: ");
+	scanf("%s", choice);
+
+	if(strcmp(choice, "Y") == 0)
+	{
+		printf("Starting the next round...");
+		printf("Player 1 score: ");
+		printf("Player 2 score: ");
+		
+	}
+	printf("\n\n");
+}
+
 /* Function which will take the x and y coordinated as well as the Player as inputs,
    To modify the array with a different value. This is the main usage for the struct.
 */
@@ -60,10 +82,12 @@ void changeBoardValue(char board[][COLS][4], int x, int y, struct instance *inst
 /* The players and their data will be handled by structs,
    this functions is used to define that data.
 */
-void initInstance(struct instance *instance, char *player, char *player_name)
+void initInstance(struct instance *instance, char *player, char *player_name, int score, int high_score)
 {
     strcpy(instance->player, player);
     strcpy(instance->player_name, player_name);
+	instance->score = score;
+	instance->high_score = high_score;
 }
 
 /* Functions which manages all validation in the program, will check
