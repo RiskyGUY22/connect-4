@@ -40,10 +40,10 @@ void changeBoardValue(char board[][COLS][4], int x, int y, struct instance *inst
 void initInstance(struct instance *instance, char *player, char *player_name, int score, int high_score);
 void checkValid(int *x, int *y, char board[][COLS][4]);
 void getPlayersInput(int *x, int *y, char board[][COLS][4], struct instance *instance);
-int getMenuChoice(char choice[8]);
 bool checkLine(char board[][COLS][4], int startX, int startY, int dx, int dy, const char playerCircle[]);
 bool checkPlayerWon(char board[][COLS][4]);
 void clear_board(char board[][COLS][4]);
 void howToPlay();
+int getMenuChoice(char choice[8]);
 
 #endif /* FUNCTIONS_H */

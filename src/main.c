@@ -48,7 +48,8 @@ void game_logic(char board[][7][4], struct instance *player1, struct instance *p
 			printf("\nPlayer 1's score is now %d\n" RESET, player1->score);
 			sleep(2);
 
-			play_again();
+			play_again(player1, player2);
+			clear_board(board);
 			print_board(board);
 			getPlayersInput(&x, &y, board, player1);
 			changeBoardValue(board, x, y, player1);
@@ -68,7 +69,8 @@ void game_logic(char board[][7][4], struct instance *player1, struct instance *p
 			printf("\nPlayer 2's score is now %d\n" RESET, player2->score);
 			sleep(2);
 			
-			play_again();
+			play_again(player1, player2);
+			clear_board(board);
 			print_board(board);
 		}
 	}

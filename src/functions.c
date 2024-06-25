@@ -45,21 +45,38 @@ void print_board(char board[][COLS][4])
 void clear_board(char board[][COLS][4])
 {
 
+	for(int i = 0; i < 6; i++)
+	{
+		for(int j = 0; j < COLS; j++)
+		{
+			strcpy(board[i][j], BLANK_CIRCLE);
+		}
+	}	
+
 }
 
-void play_again()
+void play_again(struct instance *player1, struct instance *player2)
 {
 
 	char choice[4096];
-	printf("Do you want to play again?: ");
+	printf(RED "Do you want to play again? [Y/N]: " RESET);
 	scanf("%s", choice);
 
 	if(strcmp(choice, "Y") == 0)
 	{
-		printf("Starting the next round...");
-		printf("Player 1 score: ");
-		printf("Player 2 score: ");
+		printf(RED "\nPlayer 1 score: %d", player1->score);
+		printf("\nPlayer 2 score: %d" RESET , player2->score);
 		
+	}
+	else if(strcmp(choice, "N") == 0)
+	{
+		printf(RED "Stopping game now!" RESET);
+		return;
+	}
+	else
+	{
+		printf(RED "Invalid Input!" RESET);;
+		return;
 	}
 	printf("\n\n");
 }
