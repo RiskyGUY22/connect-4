@@ -55,42 +55,40 @@ void clear_board(char board[][COLS][4])
 
 }
 
-bool play_again(struct instance *player1, struct instance *player2, int *round_number)
+/* Simple sub program to make sure if the user enters \n it wont infintly loop the program. */
+void enhanceScanf()
 {
+    while (getchar() != '\n'); // Clear the input buffer
+}
 
-	char choice[4096];
-	printf(RED "\nDo you want to play again? [Y/N]: ");
-	scanf("%s", choice);
+bool play_again(struct instance *player1, struct instance *player2, int *round_number) {
+    char choice[4096];
 
-    printf("" RESET);
+    while (true) {
+        printf(RED "\nDo you want to play again? [Y/N]: ");
+        scanf("%s", choice);
+        enhanceScanf();
+        printf("" RESET);
 
-	if(strcmp(choice, "Y") == 0)
-	{
+        // Check if input is "Y" or "N"
+        if (strcmp(choice, "Y") == 0) {
+            *round_number += 1;
 
-        *round_number += 1;
+            printf(RED "\nRound: %d", *round_number);
+            printf("\nPlayer 1 score: %d", player1->score);
+            printf("\nPlayer 2 score: %d\n\n" RESET, player2->score);
 
-        printf(RED "");
-        printf("\nRound: %d", *round_number);
-		printf("\nPlayer 1 score: %d", player1->score);
-		printf("\nPlayer 2 score: %d\n\n" RESET , player2->score); 
-
-
-        sleep(2);
-
-        return true;
-		
-	}
-	else if(strcmp(choice, "N") == 0)
-	{
-		printf(RED "Stopping game now!\n");
-		return false;
-	}
-	else
-	{
-		printf(RED "Invalid Input!\n");;
-		return false;
-	}
-	printf("\n\n");
+            sleep(2);  // Pause for 2 seconds
+            return true;
+        } else if (strcmp(choice, "N") == 0) {
+            printf(RED "Stopping game now!\n");
+            return false;
+        } else {
+            // Invalid input, prompt again
+            printf(RED "\nInvalid input! Please enter 'Y' or 'N'.\n" RESET);
+            sleep(2);
+        }
+    }
 }
 
 /* Function which will take the column and row numbers as well as the Player as inputs,
@@ -117,12 +115,6 @@ void initInstance(struct instance *instance, char *player, char *player_name, in
     strcpy(instance->player_name, player_name);
 	instance->score = score;
 	instance->high_score = high_score;
-}
-
-/* Simple sub program to make sure if the user enters \n it wont infintly loop the program. */
-void enhanceScanf()
-{
-    while (getchar() != '\n'); // Clear the input buffer
 }
 
 /* Functions which manages all validation in the program, will check
