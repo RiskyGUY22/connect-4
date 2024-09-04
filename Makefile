@@ -21,8 +21,11 @@ OBJS_WIN = $(SRCS:$(SRC_DIR)/%.c=$(OUT_DIR)/%.win.o) # win support
 TARGET_LINUX = $(OUT_DIR)/Image
 TARGET_WINDOWS = $(OUT_DIR)/Image.exe # win formatted executable
 
+# Target for creating the blank data.txt file
+DATA_FILE = $(OUT_DIR)/data.txt
+
 # Default target
-all: $(TARGET_LINUX) $(TARGET_WINDOWS)
+all: $(TARGET_LINUX) $(TARGET_WINDOWS) $(DATA_FILE)
 
 # Link the object files to create the Linux executable
 $(TARGET_LINUX): $(OBJS)
@@ -33,6 +36,12 @@ $(TARGET_LINUX): $(OBJS)
 $(TARGET_WINDOWS): $(OBJS_WIN)
 	@mkdir -p $(OUT_DIR)
 	$(CC_WIN) $(CFLAGS_WIN) $(OBJS_WIN) -o $(TARGET_WINDOWS)
+
+# Target to create the blank data.txt file
+$(DATA_FILE):
+	@mkdir -p $(OUT_DIR)
+	@touch $(DATA_FILE)
+	@chmod 777 $(DATA_FILE)
 
 # Compile source files into object files for Linux
 $(OUT_DIR)/%.o: $(SRC_DIR)/%.c
