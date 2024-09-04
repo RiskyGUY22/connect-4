@@ -71,7 +71,7 @@ int game_logic(char board[][7][4], struct instance *player1, struct instance *pl
 
 				exit(1);
 			}
-			
+
 			clear_board(board);
 			print_board(board);
 			getPlayersInput(&x, &y, board, player1);
@@ -192,14 +192,14 @@ int main()
 		else if (strcmp(choice, "3") == 0)
 		{
 			printf(RED "Goodbye!\n" RESET);
-			return 1;
+			exit(1);
 		}
 	}
 	else if (strcmp(choice, "3") == 0)
 	{
 		/* Exit the program */
 		printf(RED "Goodbye!\n" RESET);
-		return 1;
+		exit(1);
 	}
 
 	// Return 0 to show that the program has run successfully
