@@ -4,7 +4,10 @@
 /* Library needed for checking if someone has won the game,
    a boolean value makes the most sense.
 */
+
+#include <unistd.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 /* Define some ASCII values for better formatting */
 #define RESET "\033[0m"
@@ -35,7 +38,7 @@ struct instance
 
 /* All of the functions used in functions.c */
 void print_board(char board[][COLS][4]);
-void play_again();
+bool play_again(struct instance *player1, struct instance *player2, int *round_number);
 void changeBoardValue(char board[][COLS][4], int x, int y, struct instance *instance);
 void initInstance(struct instance *instance, char *player, char *player_name, int score, int high_score);
 void checkValid(int *x, int *y, char board[][COLS][4]);

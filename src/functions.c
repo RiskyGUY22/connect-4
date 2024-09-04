@@ -55,33 +55,45 @@ void clear_board(char board[][COLS][4])
 
 }
 
-void play_again(struct instance *player1, struct instance *player2)
+bool play_again(struct instance *player1, struct instance *player2, int *round_number)
 {
 
 	char choice[4096];
-	printf(RED "Do you want to play again? [Y/N]: " RESET);
+	printf(RED "\nDo you want to play again? [Y/N]: ");
 	scanf("%s", choice);
+
+    printf("" RESET);
 
 	if(strcmp(choice, "Y") == 0)
 	{
-		printf(RED "\nPlayer 1 score: %d", player1->score);
-		printf("\nPlayer 2 score: %d" RESET , player2->score);
+
+        *round_number += 1;
+
+        printf(RED "");
+        printf("\nRound: %d", *round_number);
+		printf("\nPlayer 1 score: %d", player1->score);
+		printf("\nPlayer 2 score: %d\n\n" RESET , player2->score); 
+
+
+        sleep(2);
+
+        return true;
 		
 	}
 	else if(strcmp(choice, "N") == 0)
 	{
-		printf(RED "Stopping game now!" RESET);
-		return;
+		printf(RED "Stopping game now!\n" RESET);
+		return false;
 	}
 	else
 	{
-		printf(RED "Invalid Input!" RESET);;
-		return;
+		printf(RED "Invalid Input!\n" RESET);;
+		return false;
 	}
 	printf("\n\n");
 }
 
-/* Function which will take the x and y coordinated as well as the Player as inputs,
+/* Function which will take the column and row numbers as well as the Player as inputs,
    To modify the array with a different value. This is the main usage for the struct.
 */
 void changeBoardValue(char board[][COLS][4], int x, int y, struct instance *instance)
@@ -119,20 +131,20 @@ void checkValid(int *x, int *y, char board[][COLS][4])
     {
         if (*x < 1 || *x > COLS || *y < 1 || *y > ROWS)
         {
-            printf(RED "\nInvalid set of coordinated entered, Please re-enter!\n" RESET);
+            printf(RED "\nInvalid column and/or row number, Please re-enter!\n" RESET);
 
-            printf(BLUE "Enter your x coordinate : ");
+            printf(BLUE "Enter a column number : ");
             scanf("%d", x);
-            printf("Enter your y coordinate : ");
+            printf("Enter a row number : ");
             scanf("%d", y);
         }
         else if (strcmp(board[*y - 1][*x - 1], BLANK_CIRCLE) != 0)
         {
             printf(RED "\nLocation already taken!!\n" RESET);
 
-            printf(BLUE "Enter your x coordinate : ");
+            printf(BLUE "Enter a column number : ");
             scanf("%d", x);
-            printf("Enter your y coordinate : ");
+            printf("Enter a row number : ");
             scanf("%d", y);
         }
         /* Gravity impl */
@@ -140,15 +152,15 @@ void checkValid(int *x, int *y, char board[][COLS][4])
         {
             printf(RED "\nDon't defy gravity!!\n" RESET);
 
-            printf(BLUE "Enter your x coordinate : ");
+            printf(BLUE "Enter a column number : ");
             scanf("%d", x);
-            printf("Enter your y coordinate : ");
+            printf("Enter a row number : ");
             scanf("%d", y);
         }
     }
 }
 
-/* Function to get the user's input, we will handle the x and y coordinates as pointers
+/* Function to get the user's input, we will handle the column and row numbers as pointers
    to save memory in our program and prevent potential memory leaks. Also we will use
    structs to keep track of the player's data, and so we don't need seperate functions
    for each player.
@@ -159,10 +171,10 @@ void getPlayersInput(int *x, int *y, char board[][COLS][4], struct instance *ins
     if (strcmp(instance->player, "Player1") == 0)
     {
         printf(BLUE "\nPlayer 1's turn!\n");
-        printf("Enter your x coordinate : ");
+        printf("Enter a column number : ");
         scanf("%d", x);
 
-        printf("Enter your y coordinate : ");
+        printf("Enter a row number : ");
         scanf("%d", y);
 
         checkValid(x, y, board);
@@ -172,10 +184,10 @@ void getPlayersInput(int *x, int *y, char board[][COLS][4], struct instance *ins
     else if (strcmp(instance->player, "Player2") == 0)
     {
         printf(GREEN "\nPlayer 2's turn!\n");
-        printf("Enter your x coordinate : ");
+        printf("Enter a column number : ");
         scanf("%d", x);
 
-        printf("Enter your y coordinate : ");
+        printf("Enter a row number : ");
         scanf("%d", y);
 
         checkValid(x, y, board);

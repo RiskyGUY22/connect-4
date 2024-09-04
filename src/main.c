@@ -23,7 +23,7 @@
 #include <functions.h>
 
 /* Main game function which calls all the necessary subprograms needed */
-void game_logic(char board[][7][4], struct instance *player1, struct instance *player2)
+void game_logic(char board[][7][4], struct instance *player1, struct instance *player2, int round_number)
 {
 	/* Variables for the x/y location on the game board */
 	int x, y;
@@ -43,12 +43,14 @@ void game_logic(char board[][7][4], struct instance *player1, struct instance *p
 		/* Check if Player 1 has won */
 		if (checkPlayerWon(board))
 		{
-			printf(RED "\nGAME OVER!\nPlayer 1 has won!\n");
+			printf(RED "\nGAME OVER!\n\nPlayer 1 has won!");
 			player1->score += 1;
 			printf("\nPlayer 1's score is now %d\n" RESET, player1->score);
 			sleep(2);
 
-			play_again(player1, player2);
+			if(!play_again(player1, player2, &round_number))
+				exit(1);
+
 			clear_board(board);
 			print_board(board);
 			getPlayersInput(&x, &y, board, player1);
@@ -64,12 +66,14 @@ void game_logic(char board[][7][4], struct instance *player1, struct instance *p
 		/* Check if Player 2 has won */
 		if (checkPlayerWon(board))
 		{
-			printf(RED "\nGAME OVER!\nPlayer 2 has won!\n" );
+			printf(RED "\nGAME OVER!\n\nPlayer 2 has won!" );
 			player2->score += 1;
 			printf("\nPlayer 2's score is now %d\n" RESET, player2->score);
 			sleep(2);
 			
-			play_again(player1, player2);
+			if(!play_again(player1, player2, &round_number))
+				exit(1);
+
 			clear_board(board);
 			print_board(board);
 		}
@@ -102,6 +106,9 @@ int main()
 	struct instance player1;
 	struct instance player2;
 
+	/* Keep track of what round the game is on. */
+	int round_number = 1;
+
 	/* Call the function which will give our instances data */
 	initInstance(&player1, "Player1", "TT", 0, 0);
 	initInstance(&player2, "Player2", "Computer", 0, 0);
@@ -125,7 +132,7 @@ int main()
 	/* This code will run the main game logic */
 	if (strcmp(choice, "1") == 0)
 	{
-		game_logic(board, &player1, &player2);
+		game_logic(board, &player1, &player2, round_number);
 	}
 	else if (strcmp(choice, "2") == 0)
 	{
@@ -144,7 +151,7 @@ int main()
 
 		if (strcmp(choice, "1") == 0)
 		{
-			game_logic(board, &player1, &player2);
+			game_logic(board, &player1, &player2, round_number);
 		}
 		else if (strcmp(choice, "2") == 0)
 		{
