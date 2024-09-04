@@ -20,7 +20,7 @@ since I have a Linux version which works.
 
     ./out/Image
 
-# Run code (Windows)
+# Run code (Windows - Faulty)
 
     ./out/Image.exe
 
