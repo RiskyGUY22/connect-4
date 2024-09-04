@@ -82,12 +82,12 @@ bool play_again(struct instance *player1, struct instance *player2, int *round_n
 	}
 	else if(strcmp(choice, "N") == 0)
 	{
-		printf(RED "Stopping game now!\n" RESET);
+		printf(RED "Stopping game now!\n");
 		return false;
 	}
 	else
 	{
-		printf(RED "Invalid Input!\n" RESET);;
+		printf(RED "Invalid Input!\n");;
 		return false;
 	}
 	printf("\n\n");

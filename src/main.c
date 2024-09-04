@@ -23,10 +23,20 @@
 #include <functions.h>
 
 /* Main game function which calls all the necessary subprograms needed */
-void game_logic(char board[][7][4], struct instance *player1, struct instance *player2, int round_number)
+int game_logic(char board[][7][4], struct instance *player1, struct instance *player2, int round_number)
 {
 	/* Variables for the x/y location on the game board */
 	int x, y;
+
+	/* Create a file pointer and open the file in write mode */
+	FILE *fp;
+	fp = fopen("data.txt", "w");
+
+	/* Check we have opened the file successfully */
+	if (fp == NULL) {
+    	printf("Error opening data.txt, check the program is being run from the correct directory and the data.txt exists!\n");
+    	return 1;
+	}
 
 	print_board(board); /* Initial display of the board */
 
@@ -49,8 +59,19 @@ void game_logic(char board[][7][4], struct instance *player1, struct instance *p
 			sleep(2);
 
 			if(!play_again(player1, player2, &round_number))
-				exit(1);
+			{
 
+				printf("\nSaving game data to a file...\n" RESET);
+
+				fprintf(fp, "Round: %d\n", round_number);
+				fprintf(fp, "Player 1 score: %d\n", player1->score);
+				fprintf(fp, "Player 2 score: %d\n", player2->score);
+
+				fclose(fp);
+
+				exit(1);
+			}
+			
 			clear_board(board);
 			print_board(board);
 			getPlayersInput(&x, &y, board, player1);
@@ -72,7 +93,18 @@ void game_logic(char board[][7][4], struct instance *player1, struct instance *p
 			sleep(2);
 			
 			if(!play_again(player1, player2, &round_number))
+			{
+
+				printf("\nSaving game data to a file...\n" RESET);
+
+				fprintf(fp, "Round: %d\n", round_number);
+				fprintf(fp, "Player 1 score: %d\n", player1->score);
+				fprintf(fp, "Player 2 score: %d\n", player2->score);
+
+				fclose(fp);
+
 				exit(1);
+			}
 
 			clear_board(board);
 			print_board(board);
