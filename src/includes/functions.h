@@ -32,8 +32,8 @@ struct instance
 {
     char player[100];
     char player_name[4096];
-	int score;
-	int high_score;
+    int score;
+    int high_score;
 };
 
 /* All of the functions used in functions.c */

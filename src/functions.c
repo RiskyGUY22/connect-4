@@ -45,13 +45,13 @@ void print_board(char board[][COLS][4])
 void clear_board(char board[][COLS][4])
 {
 
-	for(int i = 0; i < 6; i++)
-	{
-		for(int j = 0; j < COLS; j++)
-		{
-			strcpy(board[i][j], BLANK_CIRCLE);
-		}
-	}	
+    for(int i = 0; i < 6; i++)
+    {
+        for(int j = 0; j < COLS; j++)
+        {
+            strcpy(board[i][j], BLANK_CIRCLE);
+        }
+    }   
 
 }
 
@@ -113,8 +113,8 @@ void initInstance(struct instance *instance, char *player, char *player_name, in
 {
     strcpy(instance->player, player);
     strcpy(instance->player_name, player_name);
-	instance->score = score;
-	instance->high_score = high_score;
+    instance->score = score;
+    instance->high_score = high_score;
 }
 
 /* Functions which manages all validation in the program, will check
