@@ -119,6 +119,12 @@ void initInstance(struct instance *instance, char *player, char *player_name, in
 	instance->high_score = high_score;
 }
 
+/* Simple sub program to make sure if the user enters \n it wont infintly loop the program. */
+void enhanceScanf()
+{
+    while (getchar() != '\n'); // Clear the input buffer
+}
+
 /* Functions which manages all validation in the program, will check
    for any typos and irraneous data.
 */
@@ -135,8 +141,11 @@ void checkValid(int *x, int *y, char board[][COLS][4])
 
             printf(BLUE "Enter a column number : ");
             scanf("%d", x);
+            enhanceScanf();
+
             printf("Enter a row number : ");
             scanf("%d", y);
+            enhanceScanf();
         }
         else if (strcmp(board[*y - 1][*x - 1], BLANK_CIRCLE) != 0)
         {
@@ -144,8 +153,11 @@ void checkValid(int *x, int *y, char board[][COLS][4])
 
             printf(BLUE "Enter a column number : ");
             scanf("%d", x);
+            enhanceScanf();
+
             printf("Enter a row number : ");
             scanf("%d", y);
+            enhanceScanf();
         }
         /* Gravity impl */
         else if (*y < ROWS && strcmp(board[*y][*x - 1], BLANK_CIRCLE) == 0)
@@ -154,8 +166,11 @@ void checkValid(int *x, int *y, char board[][COLS][4])
 
             printf(BLUE "Enter a column number : ");
             scanf("%d", x);
+            enhanceScanf();
+
             printf("Enter a row number : ");
             scanf("%d", y);
+            enhanceScanf();
         }
     }
 }
@@ -173,9 +188,11 @@ void getPlayersInput(int *x, int *y, char board[][COLS][4], struct instance *ins
         printf(BLUE "\nPlayer 1's turn!\n");
         printf("Enter a column number : ");
         scanf("%d", x);
+        enhanceScanf();
 
         printf("Enter a row number : ");
         scanf("%d", y);
+        enhanceScanf();
 
         checkValid(x, y, board);
 
@@ -186,9 +203,11 @@ void getPlayersInput(int *x, int *y, char board[][COLS][4], struct instance *ins
         printf(GREEN "\nPlayer 2's turn!\n");
         printf("Enter a column number : ");
         scanf("%d", x);
+        enhanceScanf();
 
         printf("Enter a row number : ");
         scanf("%d", y);
+        enhanceScanf();
 
         checkValid(x, y, board);
 
